@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'openapi/**'
+      # složka openapi v rootu
+      # == pipeline se spustí pokud nastane změna ve složce 'openapi' v branchi main
 
 permissions:
   contents: read
@@ -26,23 +28,30 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
+        # použité verze je třeba občas zaktualizovat 
 
       - name: Setup Node.js
         uses: actions/setup-node@v6.4.0
+         # použité verze je třeba občas zaktualizovat 
         with:
           node-version: '24'
+          # verze nodeJS - GitHub vyžaduje použití min. verze
 
       - name: Install Redocly CLI
         run: npm install -g @redocly/cli
 
       - name: Build HTML documentation
-        run: redocly build-docs apib2openapi.yaml -o index.html
+        run: redocly build-docs openapi/*.yaml -o index.html
+        # HTMN soubor se vygeneruje ze souboru .yaml ve složce 'openapi'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
+                 # použité verze je třeba občas zaktualizovat 
         with:
           path: '.'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+                 # použité verze je třeba občas zaktualizovat 
+
