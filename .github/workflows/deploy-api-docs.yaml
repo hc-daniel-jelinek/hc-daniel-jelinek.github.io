@@ -45,7 +45,7 @@ jobs:
         run: npm install -g @redocly/cli
 
       - name: Build HTML documentation
-        run: redocly build-docs openapi/*.yaml -o index.html
+        run: redocly build-docs openapi/file.yaml -o index.html
         # HTMN soubor se vygeneruje ze souboru .yaml ve složce 'openapi'
 
       - name: Upload artifact
