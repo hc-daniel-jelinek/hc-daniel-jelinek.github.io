@@ -26,6 +26,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+        # nakonfiguruje nasazení github pages přes github actions
+    
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
         # použité verze je třeba občas zaktualizovat 
