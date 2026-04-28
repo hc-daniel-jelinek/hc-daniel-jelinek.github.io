@@ -46,32 +46,6 @@ jobs:
             redocly build-docs openapi/*.yaml -o _site/index.html
         # HTMN soubor se vygeneruje ze souboru .yaml ve složce 'openapi'
 
-      - name: Initialize or configure GitHub Pages
-        # Nastaví zdroj nasazení GitHub Pages na GitHub Actions (build_type: workflow)
-        # Pokud Pages ještě neexistují, vytvoří je (POST); pokud existují, aktualizuje zdroj (PUT)
-        run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/pages)
-        
-          if [ "$STATUS" = "404" ]; then
-            curl -s -X POST \
-              -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/${{ github.repository }}/pages \
-              -d '{"build_type":"workflow"}'
-          else
-            curl -s -X PUT \
-              -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/${{ github.repository }}/pages \
-              -d '{"build_type":"workflow"}'
-          fi
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
                  # použité verze je třeba občas zaktualizovat 
