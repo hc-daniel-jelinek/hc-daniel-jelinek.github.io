@@ -41,7 +41,9 @@ jobs:
         run: npm install -g @redocly/cli
 
       - name: Build HTML documentation
-        run: redocly build-docs openapi/*.yaml -o index.html
+        run: |
+            mkdir -p _site
+            redocly build-docs openapi/*.yaml -o _site/index.html
         # HTMN soubor se vygeneruje ze souboru .yaml ve složce 'openapi'
 
       - name: Initialize or configure GitHub Pages
@@ -76,7 +78,7 @@ jobs:
         uses: actions/upload-pages-artifact@v5
                  # použité verze je třeba občas zaktualizovat 
         with:
-          path: '.'
+           path: '_site'   # ← nahraje pouze vygenerovaný HTML soubor
 
       - name: Deploy to GitHub Pages
         id: deployment
