@@ -46,6 +46,18 @@ jobs:
             redocly build-docs openapi/*.yaml -o _site/index.html
         # HTMN soubor se vygeneruje ze souboru .yaml ve složce 'openapi'
 
+      - name: Commit generated HTML to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add html/index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update generated API docs [skip ci]"
+            git push origin HEAD:main
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
                  # použité verze je třeba občas zaktualizovat 
